@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import api from '../services/api'
+import styles from './Auth.module.css'
 
 export default function Register() {
   const [email, setEmail] = useState('')
@@ -16,7 +17,7 @@ export default function Register() {
     try {
       await api.post('/Auth/register', { email, password })
       navigate('/login')
-    } catch  {
+    } catch {
       setError('Erro ao criar conta. Verifique os dados.')
     } finally {
       setLoading(false)
@@ -24,47 +25,47 @@ export default function Register() {
   }
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>Criar conta</h1>
-        <p style={styles.subtitle}>Comece a acompanhar suas notícias</p>
-        <form onSubmit={handleSubmit}>
-          <input
-            style={styles.input}
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
-          <input
-            style={styles.input}
-            type="password"
-            placeholder="Senha (mín. 6 caracteres, letras e números)"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-          {error && <p style={styles.error}>{error}</p>}
-          <button style={styles.button} type="submit" disabled={loading}>
-            {loading ? 'Cadastrando...' : 'Cadastrar'}
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <div className={styles.brand}>
+          <h1 className={styles.logo}>Trackland</h1>
+          <p className={styles.tagline}>Crie sua conta e personalize seu feed</p>
+        </div>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.field}>
+            <label className={styles.label}>Email</label>
+            <input
+              className={styles.input}
+              type="email"
+              placeholder="seu@email.com"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.field}>
+            <label className={styles.label}>Senha</label>
+            <input
+              className={styles.input}
+              type="password"
+              placeholder="Mínimo 6 caracteres"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+            />
+            <span className={styles.hint}>
+              Use letras maiúsculas, números e caracteres especiais (ex: Senha@123)
+            </span>
+          </div>
+          {error && <p className={styles.error}>{error}</p>}
+          <button className={styles.button} type="submit" disabled={loading}>
+            {loading ? 'Cadastrando...' : 'Criar conta'}
           </button>
         </form>
-        <p style={styles.link}>
-          Já tem conta? <Link to="/login">Entrar</Link>
+        <p className={styles.footer}>
+          Já tem conta? <Link to="/login" className={styles.link}>Entrar</Link>
         </p>
       </div>
     </div>
   )
-}
-
-const styles = {
-  container: { minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f5f5' },
-  card: { background: '#fff', padding: '2rem', borderRadius: '12px', width: '100%', maxWidth: '400px', boxShadow: '0 2px 12px rgba(0,0,0,0.1)' },
-  title: { margin: '0 0 4px', fontSize: '28px', color: '#1a1a1a' },
-  subtitle: { margin: '0 0 24px', color: '#666' },
-  input: { width: '100%', padding: '12px', marginBottom: '12px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '15px', boxSizing: 'border-box' },
-  button: { width: '100%', padding: '12px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '8px', fontSize: '16px', cursor: 'pointer' },
-  error: { color: 'red', marginBottom: '12px', fontSize: '14px' },
-  link: { textAlign: 'center', marginTop: '16px', color: '#666' }
 }

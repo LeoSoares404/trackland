@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Navbar from '../components/Navbar'
 import api from '../services/api'
+import styles from './Preferences.module.css'
 
 const CATEGORIES = [
-  { id: 'technology', label: 'Tecnologia' },
-  { id: 'sport', label: 'Esportes' },
-  { id: 'science', label: 'Ciência' },
-  { id: 'business', label: 'Negócios' },
-  { id: 'health', label: 'Saúde' },
-  { id: 'environment', label: 'Meio Ambiente' },
-  { id: 'culture', label: 'Cultura' },
-  { id: 'world', label: 'Mundo' },
+  { id: 'technology', label: 'Tecnologia', emoji: '💻' },
+  { id: 'sport', label: 'Esportes', emoji: '⚽' },
+  { id: 'science', label: 'Ciência', emoji: '🔬' },
+  { id: 'business', label: 'Negócios', emoji: '💼' },
+  { id: 'health', label: 'Saúde', emoji: '❤️' },
+  { id: 'environment', label: 'Meio Ambiente', emoji: '🌱' },
+  { id: 'culture', label: 'Cultura', emoji: '🎭' },
+  { id: 'world', label: 'Mundo', emoji: '🌍' },
 ]
 
 export default function Preferences() {
@@ -27,6 +29,7 @@ export default function Preferences() {
     setSelected(prev =>
       prev.includes(id) ? prev.filter(c => c !== id) : [...prev, id]
     )
+    setSaved(false)
   }
 
   const handleSave = async () => {
@@ -34,45 +37,42 @@ export default function Preferences() {
     await api.post('/Preferences', selected)
     setSaved(true)
     setLoading(false)
-    setTimeout(() => navigate('/'), 1000)
+    setTimeout(() => navigate('/'), 1200)
   }
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h2 style={styles.title}>Seus interesses</h2>
-        <p style={styles.subtitle}>Selecione as categorias que quer acompanhar</p>
-        <div style={styles.grid}>
+    <div className={styles.page}>
+      <Navbar />
+      <main className={styles.main}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Seus interesses</h2>
+          <p className={styles.subtitle}>Selecione as categorias que quer acompanhar no seu feed</p>
+        </div>
+
+        <div className={styles.grid}>
           {CATEGORIES.map(cat => (
             <button
               key={cat.id}
               onClick={() => toggle(cat.id)}
-              style={{
-                ...styles.catBtn,
-                background: selected.includes(cat.id) ? '#2563eb' : '#f1f5f9',
-                color: selected.includes(cat.id) ? '#fff' : '#1a1a1a',
-              }}
+              className={`${styles.catBtn} ${selected.includes(cat.id) ? styles.catActive : ''}`}
             >
-              {cat.label}
+              <span className={styles.emoji}>{cat.emoji}</span>
+              <span className={styles.catLabel}>{cat.label}</span>
+              {selected.includes(cat.id) && <span className={styles.check}>✓</span>}
             </button>
           ))}
         </div>
-        {saved && <p style={styles.success}>Preferências salvas! Redirecionando...</p>}
-        <button style={styles.button} onClick={handleSave} disabled={loading || selected.length === 0}>
-          {loading ? 'Salvando...' : 'Salvar preferências'}
+
+        {saved && <p className={styles.success}>✓ Preferências salvas! Redirecionando...</p>}
+
+        <button
+          className={styles.saveBtn}
+          onClick={handleSave}
+          disabled={loading || selected.length === 0}
+        >
+          {loading ? 'Salvando...' : `Salvar ${selected.length} categorias`}
         </button>
-      </div>
+      </main>
     </div>
   )
-}
-
-const styles = {
-  container: { minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f5f5' },
-  card: { background: '#fff', padding: '2rem', borderRadius: '12px', width: '100%', maxWidth: '500px', boxShadow: '0 2px 12px rgba(0,0,0,0.1)' },
-  title: { margin: '0 0 4px', fontSize: '24px', color: '#1a1a1a' },
-  subtitle: { margin: '0 0 24px', color: '#666' },
-  grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '24px' },
-  catBtn: { padding: '12px', borderRadius: '8px', border: 'none', fontSize: '15px', cursor: 'pointer', transition: 'all 0.2s' },
-  button: { width: '100%', padding: '12px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '8px', fontSize: '16px', cursor: 'pointer' },
-  success: { color: 'green', marginBottom: '12px', textAlign: 'center' }
 }

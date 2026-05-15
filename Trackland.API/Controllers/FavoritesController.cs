@@ -55,8 +55,8 @@ namespace Trackland.API.Controllers
             return Ok(new { message = "Adicionado aos favoritos!" });
         }
 
-        [HttpDelete("{articleId}")]
-        public async Task<IActionResult> RemoveFavorite(string articleId)
+        [HttpDelete]
+        public async Task<IActionResult> RemoveFavorite([FromQuery] string articleId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             var favorite = await _context.Favorites
