@@ -13,7 +13,15 @@ export default function Navbar() {
 
   return (
     <nav className={styles.navbar}>
-      <Link to="/" className={styles.logo}>Trackland</Link>
+      <div className={styles.brand}>
+        <Link to="/" className={styles.logo}>
+          <span className={styles.logoIcon}>📰</span>
+          <span className={styles.logoText}>
+            <span className={styles.logoBold}>TrackLand</span>
+            <span className={styles.logoThin}>Journal</span>
+          </span>
+        </Link>
+      </div>
       <div className={styles.links}>
         <Link to="/preferences" className={styles.link}>Preferências</Link>
         <Link to="/favorites" className={styles.link}>Favoritos</Link>

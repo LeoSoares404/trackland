@@ -1,25 +1,31 @@
 import styles from './NewsCard.module.css'
 
-export default function NewsCard({ article, isFavorite, onFavorite, onRead }) {
+export default function NewsCard({ article, isFavorite, onFavorite, onRead, featured }) {
   return (
-    <div className={styles.card}>
+    <div className={featured ? styles.cardFeatured : styles.card}>
       <div className={styles.header}>
         <span className={styles.source}>{article.source}</span>
         <span className={styles.section}>{article.section}</span>
       </div>
 
-      <h3 className={styles.title}>{article.title}</h3>
+      <h3 className={featured ? styles.titleFeatured : styles.title}>
+        {article.title}
+      </h3>
 
       {article.description && (
         <p
-          className={styles.description}
+          className={featured ? styles.descriptionFeatured : styles.description}
           dangerouslySetInnerHTML={{ __html: article.description }}
         />
       )}
 
       <div className={styles.footer}>
         <span className={styles.date}>
-          {new Date(article.publishedAt).toLocaleDateString('pt-BR')}
+          {new Date(article.publishedAt).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+          })}
         </span>
         <div className={styles.actions}>
           <button

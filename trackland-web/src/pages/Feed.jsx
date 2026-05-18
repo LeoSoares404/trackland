@@ -44,7 +44,7 @@ export default function Feed() {
   useEffect(() => {
     loadFeed(1)
     api.get('/Favorites').then(res => setFavorites(res.data.map(f => f.articleId)))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSearch = async (e) => {
@@ -166,10 +166,11 @@ export default function Feed() {
         <div className={styles.grid}>
           {loading
             ? Array.from({ length: 12 }).map((_, i) => <SkeletonCard key={i} />)
-            : articles.map(article => (
+            : articles.map((article, index) => (
               <NewsCard
                 key={article.id}
                 article={article}
+                featured={index === 0}
                 isFavorite={favorites.includes(article.id)}
                 onFavorite={toggleFavorite}
                 onRead={handleRead}
