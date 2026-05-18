@@ -152,12 +152,12 @@ O Swagger gerado pelo template padrão do ASP.NET não inclui suporte a JWT. Sol
 ### 5. Dark mode persistente
 O tema escuro precisava ser mantido ao recarregar a página. Solução: salvar a preferência no `localStorage` e aplicar via atributo `data-theme` no elemento raiz do HTML.
 
+## 🌐 Deploy
+
+- **Frontend:** https://trackland-nu.vercel.app
+- **Backend API:** https://trackland-production.up.railway.app
+- **Swagger:** https://trackland-production.up.railway.app/swagger
+
 ## 📹 Demonstração
 
-[Link do vídeo de demonstração](#) — em breve
-
-## 👨‍💻 Autor
-
-**Leonardo Soares**
-- GitHub: [@LeoSoares404](https://github.com/LeoSoares404)
-- Email: leosalostiano@gmail.com
+[▶ Assistir ao vídeo de demonstração](https://drive.google.com/file/d/10GR4nYK_K2xg7jrdHCHCSA3XGeXpvwn-/view?usp=drive_link)
