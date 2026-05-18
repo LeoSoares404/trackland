@@ -32,6 +32,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 // JWT
 var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY") 
     ?? builder.Configuration["Jwt:Key"]!;
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
